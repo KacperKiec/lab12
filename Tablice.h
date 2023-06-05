@@ -3,6 +3,9 @@
 
 #include <iostream>
 #include <vector>
+#include <random>
+#include <fstream>
+#include <string>
 
 class cTablica {
 protected:
@@ -41,7 +44,7 @@ private:
 	//przechowywany kontener zawierajacy dane typu int
 	std::vector<int> table;
 	//rozmiar kontenera
-	int size{ 0 };
+	int size;
 
 public:
 
@@ -51,7 +54,24 @@ public:
 	*/
 	cSortTablica(int size);
 
-	
+
+	void f_chooseSort(std::ofstream& write);
+
+protected:
+	/*
+	* Wypelnienie w kontenerze zadanej liczby elementow liczbami losowymi
+	* @param numbers - zadana liczba elementow
+	*/
+	void f_fillWithRandom(int numbers);
+
+	/*
+	* Wypelnienie w kontenerze zadanej liczby elementow liczbami podanymi przez uzytkownika
+	* @param numbers - zadana liczba elementow
+	*/
+	void f_fillManual(int numbers);
+
+
+	void f_saveToFile(std::string name, int length, std::string tableType, int comparisons, int changes, std::ofstream& write);
 
 };
 
