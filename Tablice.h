@@ -1,13 +1,13 @@
-#ifndef TABLICE.H
-#define TABLICE.H
+#ifndef TABLICE_H
+#define TABLICE_H
 
 #include <iostream>
 #include <vector>
 
 class cTablica {
 protected:
-	void f_shakeSort(std::vector<int> table);
-	void f_quickSortLomuto(std::vector<int> table);
+	std::pair<int, int> f_shakeSort(std::vector<int>& table);
+	void f_quickSortLomuto(std::vector<int>& table);
 };
 
 
@@ -26,9 +26,14 @@ public:
 	cSortTablica(int size);
 
 	/*
-	* Wypelnienie kontenera losowymi liczbami
+	* Wypelnienie kontenera zadana liczba losowych elementow
 	*/
 	void f_fillWithRand();
+
+	/*
+	* Wypelnienie kontenera zadana liczba podanych przez uzytkownika elementow
+	*/
+	void f_fillManual();
 
 };
 

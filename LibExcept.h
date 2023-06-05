@@ -1,5 +1,5 @@
-#ifndef LIBEXCEPT.H
-#define LIBEXCEPT.H
+#ifndef LIBEXCEPT_H
+#define LIBEXCEPT_H
 
 
 namespace MyRunTimeExceptions {

@@ -1,5 +1,5 @@
-#ifndef LIBFILES.H
-#define LIBFILES.H
+#ifndef LIBFILES_H
+#define LIBFILES_H
 
 #include <iostream>
 #include <fstream>
