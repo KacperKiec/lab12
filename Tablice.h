@@ -54,7 +54,10 @@ public:
 	*/
 	cSortTablica(int size);
 
-
+	/*
+	* Wybor dlugosci, wypelnienia i metody sortowania tablicy
+	* @param write - referencja do uchwytu ofstream na zapis
+	*/
 	void f_chooseSort(std::ofstream& write);
 
 protected:
