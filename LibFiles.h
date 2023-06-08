@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include "LibExcept.h"
 
 /*
 * Otwarcie pliku do odczytu

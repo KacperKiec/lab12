@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <fstream>
+#include <vector>
 #include "Tablice.h"
 #include "LibFiles.h"
 #include "LibExcept.h"
@@ -20,7 +21,10 @@ int main()
         else exit(0);
     }
     
-    write << "Nazwa metody\tDlugosc tablicy\nRodzaj tablicy\tLiczb porownan\tLiczba przestawien\n";
+    write << "Nazwa metody\tDlugosc tablicy\tRodzaj tablicy\tLiczb porownan\tLiczba przestawien\n";
+
+    cSortTablica s;
+    s.f_allSorts(write);
 
     write.close();
 }

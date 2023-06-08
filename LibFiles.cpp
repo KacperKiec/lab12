@@ -8,7 +8,7 @@ void f_openFile(std::ifstream& read) {
 	f_ifTxt(name);
 
 	read.open(name);
-	if (!read) throw ("Nie mozna otworzyc pliku!\n");
+	if (!read) throw MyRunTimeExceptions::FileOpenException();
 }
 
 void f_createFile(std::ofstream& write) {
@@ -19,7 +19,7 @@ void f_createFile(std::ofstream& write) {
 	f_ifTxt(name);
 
 	write.open(name);
-	if (!write) throw ("Nie mozna otworzyc pliku!\n");
+	if (!write) throw MyRunTimeExceptions::FileOpenException();;
 }
 
 std::string f_ifTxt(std::string& name) {
