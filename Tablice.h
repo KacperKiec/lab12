@@ -16,7 +16,7 @@ public:
 	* @param table - referencja do kontenera z danymi
 	* @return Para zawierajaca liczbe porownan i przestawien
 	*/
-	std::pair<unsigned long long,unsigned long long> f_shakeSort(std::vector<int>& table);
+	std::pair<int,int> f_shakeSort(std::vector<int>& table);
 
 
 	/*
@@ -27,7 +27,7 @@ public:
 	* @param high - gorna granica iteracji
 	* @param actions - para zawierajaca liczbe porownan i przestawien
 	*/
-	void f_quickSort(int option, std::vector<unsigned long long>& table, int low, int high, std::pair<unsigned long long, unsigned long long>& actions);
+	void f_quickSort(int option, std::vector<int>& table, int low, int high, std::pair<int, int>& actions);
 
 	/*
 	* Wyznaczenie indeksu elementu podzialowego
@@ -37,7 +37,7 @@ public:
 	* @param actions - para zawierajaca liczbe porownan i przestawien
 	* @return Indeks elementu podzialowego
 	*/
-	int f_partitionLomuto(std::vector<unsigned long long>& table, int low, int high, std::pair<unsigned long long, unsigned long long>& actions);
+	int f_partitionLomuto(std::vector<int>& table, int low, int high, std::pair<int, int>& actions);
 
 	/*
 	* Wyznaczenie indeksu elementu podzialowego
@@ -47,7 +47,7 @@ public:
 	* @param actions - para zawierajaca liczbe porownan i przestawien
 	* @return Indeks elementu podzialowego
 	*/
-	int f_partionHoare(std::vector<unsigned long long>& table, int low, int high, std::pair<unsigned long long, unsigned long long>& actions);
+	int f_partionHoare(std::vector<int>& table, int low, int high, std::pair<int, int>& actions);
 
 	/*
 	* Kopcowanie, najwekszy element podstawiany do korzenia
@@ -56,14 +56,14 @@ public:
 	* @param i - najwiêksza wartoœæ
 	* @param actions - para zawierajaca liczbe porownan i przestawien
 	*/
-	void heapify(std::vector<int>& table, int n, int i, std::pair<unsigned long long, unsigned long long>& actions);
+	void heapify(std::vector<int>& table, int n, int i, std::pair<int, int>& actions);
 
 	/*
 	* sortowanie przez kopcowanie
 	* @param table - referencja do kontenera z danymi
 	* @param actions - para zawierajaca liczbe porownan i przestawien
 	*/
-	void f_heapSort(std::vector<int>& table, std::pair<unsigned long long,unsigned long long>& actions);
+	void f_heapSort(std::vector<int>& table, std::pair<int,int>& actions);
 };
 
 
@@ -71,7 +71,7 @@ class cSortTablica : protected cTablica{
 private:
 
 	//przechowywany kontener zawierajacy dane typu int
-	std::vector<unsigned long long> table;
+	std::vector<int> table;
 	//rozmiar kontenera
 	int size;
 

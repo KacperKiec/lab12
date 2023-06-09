@@ -1,12 +1,14 @@
 ﻿#include <iostream>
 #include <fstream>
 #include <vector>
+#include <locale.h>
 #include "Tablice.h"
 #include "LibFiles.h"
 #include "LibExcept.h"
 
 int main()
 {
+    setlocale(LC_CTYPE, "Polish");
     //uchwyt ofstream na zapis
     std::ofstream write;
     try {

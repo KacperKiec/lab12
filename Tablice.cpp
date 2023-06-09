@@ -1,6 +1,6 @@
 #include "Tablice.h"
 
-std::pair<unsigned long long,unsigned long long> cTablica::f_shakeSort(std::vector<int>& table){
+std::pair<int,int> cTablica::f_shakeSort(std::vector<int>& table){
 
     //dolna granica iteracji
     int bottom = 0;
@@ -43,35 +43,36 @@ std::pair<unsigned long long,unsigned long long> cTablica::f_shakeSort(std::vect
     return actions;
 }
 
-void cTablica::f_quickSort(int option, std::vector<unsigned long long>& table, int low, int high, std::pair<unsigned long long, unsigned long long>& actions){
+void cTablica::f_quickSort(int option, std::vector<int>& table, int low, int high, std::pair<int, int>& actions){
 
     if (low < high) {
         
         int q = 0;
         
+        //jesli optioon = 0 to wykonujemy podzia³ Lomuto
         if (option == 0)
         {
             q = f_partitionLomuto(table, low, high, actions);
+            f_quickSort(option, table, low, q-1, actions);
+
         }
 
-
+        //jesli optioon = 1 to wykonujemy podzia³ Hoare'a
         if (option == 1)
         {
             q = f_partionHoare(table, low, high, actions);
+            f_quickSort(option, table, low, q, actions);
         }
         
-
-        f_quickSort(option, table, low, q - 1, actions);
         f_quickSort(option, table, q + 1, high, actions);
     }
     actions.first++;
 }
 
-int cTablica::f_partitionLomuto(std::vector<unsigned long long>& table, int low, int high, std::pair<unsigned long long, unsigned long long>& actions){
+int cTablica::f_partitionLomuto(std::vector<int>& table, int low, int high, std::pair<int, int>& actions){
 
     //element podzialowy
-    int pivot = table.at(high);
-    std::cout << "k";
+    int pivot = table.at((high+low)/2);
 
     //element mniejszy
     int i = low - 1;
@@ -81,7 +82,6 @@ int cTablica::f_partitionLomuto(std::vector<unsigned long long>& table, int low,
             std::swap(table[i], table[j]);
             actions.second++;
         }
-        std::cout << j << " ";
         actions.first++;
     }
 
@@ -90,29 +90,45 @@ int cTablica::f_partitionLomuto(std::vector<unsigned long long>& table, int low,
     return (i + 1);
 }
 
-int cTablica::f_partionHoare(std::vector<unsigned long long>& table, int low, int high, std::pair<unsigned long long,unsigned long long>& actions)
+int cTablica::f_partionHoare(std::vector<int>& table, int low, int high, std::pair<int,int>& actions)
 {
-    long long pivot = table.at(high-1);    // element podzia³owy
-    int i = (low - 1);  // mniejszy element
+    int pivot = table.at(low); // podzia³
+    int i = low - 1, j = high + 1;
 
-    for (int j = low; j <= high - 1; j++)
-    {
-        //jesli aktulany element jest mnijszy lub równy elementowi podzia³owemu
-        if (table.at(j) <= pivot)
-        {
-            i++; 
-            std::swap(table.at(i), table.at(j));
-            actions.second++;
-        }
-        actions.first++;
+    while (true) {
+        // ZnajdŸ lewy element wiêkszy lub równy pivotowi
+        do {
+            i++;
+            actions.first++;
+        } while (table.at(i) < pivot);
+
+        actions.first--;
+
+        // ZnajdŸ prawy element mniejszy lub równy pivotowi
+        do {
+            j--;
+            actions.first++;
+        } while (table.at(j) > pivot);
+        actions.first--;
+
+        // jesli sie spotkaj¹
+        if (i >= j)
+            return j;
+
+        // SprawdŸ czy `i` przekroczy³o granicê
+        if (i >= high)
+            return high;
+
+        // SprawdŸ czy `j` przekroczy³o granicê
+        if (j <= low)
+            return low;
+
+        std::swap(table.at(i), table.at(j));
+        actions.second++;
     }
-    std::swap(table.at(i + 1), table.at(high));
-    actions.second++;
-
-    return (i + 1);
 }
 
-void cTablica::heapify(std::vector<int>& table, int n, int i, std::pair<unsigned long long,unsigned long long>& actions)
+void cTablica::heapify(std::vector<int>& table, int n, int i, std::pair<int,int>& actions)
 {
     // znajdowanie najwiêkszego elementu z rodzica, lewego i prawego dziecka
     int largest = i;
@@ -139,7 +155,7 @@ void cTablica::heapify(std::vector<int>& table, int n, int i, std::pair<unsigned
     }
 }
 
-void cTablica::f_heapSort(std::vector<int>& table, std::pair<unsigned long long, unsigned long long>& actions)
+void cTablica::f_heapSort(std::vector<int>& table, std::pair<int, int>& actions)
 {
     //rozmiar tablicy
     int n = table.size();
@@ -161,7 +177,7 @@ void cTablica::f_heapSort(std::vector<int>& table, std::pair<unsigned long long,
 }
 
 cSortTablica::cSortTablica(){
-    this->size = 10000;
+    this->size = 1000;
 
     int option = 0;
 
@@ -171,7 +187,7 @@ cSortTablica::cSortTablica(){
     f_fillManual(option);
 
     int number = this->size - option-1;
-    std::cout << "\nliczba liczb wygenerowanych losowo: " << number;
+    std::cout << "\nliczba liczb wygenerowanych losowo: " << number+1;
     f_fillWithRandom(number);
 }
 
@@ -205,19 +221,50 @@ void cSortTablica::f_fillWithRandom(int numbers){
 }
 
 void cSortTablica::f_allSorts(std::ofstream& write){
+    
+    //para z porównaniami oraz podmianami
+    std::pair<int,int> actions{ 0, 0 };
 
-    std::pair<unsigned long long,unsigned long long> actions{ 0, 0 };
+    //wektory pomocnicze
+    std::vector<int> temp1, temp2, temp3, temp4, partially;
 
-    std::vector<unsigned long long> temp1, temp2, temp3, temp4;
+    //tekst do rodzajów tablic
     std::vector<std::string> typeOfTable{"Losowo", "Uporz¹dkowane", "Odwrotne", "Czêsciowo"};
-
-    for (int i = 0; i < table.size(); i++) {
-        table.at(i) = i;
-    }
-    table.push_back(0);
 
     for (int j = 0; j < 4; j++)
     {
+        
+        //Uporz¹dkowane
+        if (j == 1) 
+        {
+            f_heapSort(table, actions);
+            partially = table;
+            actions.first = 0;
+            actions.second = 0;
+        }
+
+        //Odwrotnie uporz¹dkowane
+        if (j == 2) 
+        {
+            for (int i = table.size() - 1; i >= 0; i--)
+            {
+                temp1.at(i) = table.at(i);
+                table = temp1;
+            }
+        }
+
+        //czêœciowo uporz¹dkowane(10% na z³ych miejscach)
+        if (j == 3)
+        {
+            int part = partially.size() * 0.1 - 1; //obliczanie 10% z tablicy
+
+            for(int i=0; i<partially.size(); i+=part)
+            {
+                std::swap(partially.at(i), partially.at(0));
+            }
+            table = partially;
+        }
+       
 
         for (int i = 100; i <= this->size; i *= 10)
         {
@@ -231,12 +278,35 @@ void cSortTablica::f_allSorts(std::ofstream& write){
             temp4 = this->table;
             temp4.resize(i);
 
-            f_quickSort(0, temp3, 0, temp2.size() - 1, actions);
-            f_saveToFile("S. Quick sort Hoare'a", i, typeOfTable.at(j), actions.first, actions.second, write);
+            //shake sort
+            actions = f_shakeSort(temp1);
+            f_saveToFile("S. Koktajlowe                          ", i, typeOfTable.at(j), actions.first, actions.second, write);
             actions.first = 0;
             actions.second = 0;
 
+            
+            //Quick Sort Lomuto
+            f_quickSort(0, temp2, 0, temp2.size() - 1, actions);
+            f_saveToFile("S. Quick sort Lomuto ", i, typeOfTable.at(j), actions.first, actions.second, write);
+            actions.first = 0;
+            actions.second = 0;
+            
+           
+            //Quick sort Hoare'a
+            f_quickSort(1, temp3, 0, temp3.size() - 1, actions);
+            f_saveToFile("S. Quick sort Hoare'a", i, typeOfTable.at(j), actions.first, actions.second, write);
+            actions.first = 0;
+            actions.second = 0;
+            
+
+            //Sortowanie przez Kopcowanie
+            f_heapSort(temp4, actions);
+            f_saveToFile("S. przez Kocowanie   ", i, typeOfTable.at(j), actions.first, actions.second, write);
+            actions.first = 0;
+            actions.second = 0;
+            write << "\n";
         }
+        write << "-------------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
     }
 }
 
