@@ -280,7 +280,7 @@ void cSortTablica::f_allSorts(std::ofstream& write){
 
             //shake sort
             actions = f_shakeSort(temp1);
-            f_saveToFile("S. Koktajlowe                          ", i, typeOfTable.at(j), actions.first, actions.second, write);
+            f_saveToFile("S. Koktajlowe      ", i, typeOfTable.at(j), actions.first, actions.second, write);
             actions.first = 0;
             actions.second = 0;
 
@@ -301,7 +301,7 @@ void cSortTablica::f_allSorts(std::ofstream& write){
 
             //Sortowanie przez Kopcowanie
             f_heapSort(temp4, actions);
-            f_saveToFile("S. przez Kocowanie   ", i, typeOfTable.at(j), actions.first, actions.second, write);
+            f_saveToFile("S. przez Kopcowanie   ", i, typeOfTable.at(j), actions.first, actions.second, write);
             actions.first = 0;
             actions.second = 0;
             write << "\n";
@@ -313,7 +313,7 @@ void cSortTablica::f_allSorts(std::ofstream& write){
 void cSortTablica::f_fillManual(int numbers){
     
     try {
-        if (numbers<0 || numbers > this->size) { throw MyLogicExceptions::OutOfRangeException("Wartoœæ poza zakresem, maksymalny rozmiar tablicy to: 1000000"); }
+        if (numbers<0 || numbers > this->size) { throw MyLogicExceptions::OutOfRangeException("Wartoœæ poza zakresem!"); }
         //zmienna pomocnicza
         int temp;
         for (int i = 0; i < numbers; i++) {
@@ -324,7 +324,7 @@ void cSortTablica::f_fillManual(int numbers){
     catch (std::exception& e)
     {
         int newValue;
-        e.what();
+        std::cerr << e.what();
         std::cerr << "Podaj nowa liczbe elementow: ";
         std::cin >> newValue;
         this->f_fillManual(newValue);

@@ -10,7 +10,6 @@
 
 class cTablica {
 protected:
-public:
 	/*
 	* Sortowanie koktajlowe
 	* @param table - referencja do kontenera z danymi
@@ -102,7 +101,15 @@ protected:
 	*/
 	void f_fillManual(int numbers);
 
-
+	/*
+	* Zapis danych do pliku
+	* @param name - nazwa sortowanie
+	* @param length - rozmiar tablicy
+	* @param tableType - stan posortowanie tablicy
+	* @param comparisons - liczba porownan
+	* @param changes - liczba przestawien
+	* @param write - referencja do obiektu ofstream
+	*/
 	void f_saveToFile(std::string name, int length, std::string tableType, long long comparisons, long long changes, std::ofstream& write);
 
 };
